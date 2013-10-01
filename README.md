@@ -1,4 +1,4 @@
-sidekix
-=======
+Sidekix Bundl
+=========
 
-Sidekick Project Bundl
+Perfect bundl to add onto any sidekick project
