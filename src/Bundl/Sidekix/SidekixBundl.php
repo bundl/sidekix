@@ -9,6 +9,7 @@ use Cubex\Bundle\Bundle;
 use Cubex\Cookie\Cookies;
 use Cubex\Cookie\StandardCookie;
 use Cubex\Events\EventManager;
+use Cubex\Facade\Redirect;
 use Cubex\Foundation\Config\Config;
 use Cubex\Foundation\Container;
 
@@ -34,6 +35,11 @@ class SidekixBundl extends Bundle
         $config->getStr("diffuse_cookie", "CUBEX_VERSION"), $version
       );
       Cookies::set($cookie);
+      $redirect = $config->getStr("diffuse_cookie_redirect", null);
+      if($redirect)
+      {
+        Redirect::to($redirect)->now();
+      }
     }
   }
 }
