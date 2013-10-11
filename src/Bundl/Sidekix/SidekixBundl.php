@@ -27,8 +27,14 @@ class SidekixBundl extends Bundle
   {
     $config   = Container::config()->get("sidekix", new Config());
     $security = $config->getStr("security_key", null);
-    $version  = Container::request()->getVariables("DIFFUSE_VERSION", null);
-    $secKey   = Container::request()->getVariables("SEC", null);
+    $request  = Container::request();
+    if($request === null)
+    {
+      return;
+    }
+
+    $version = $request->getVariables("DIFFUSE_VERSION", null);
+    $secKey  = $request->getVariables("SEC", null);
     if($version !== null && $secKey === $security)
     {
       $cookie = new StandardCookie(
