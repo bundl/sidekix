@@ -61,15 +61,7 @@ class SidekixBundl extends Bundle
         'target' => $targetLanguage
       ];
 
-      $curlHandle = curl_init($translateApi);
-      curl_setopt($curlHandle, CURLOPT_HEADER, false);
-      curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
-      curl_setopt($curlHandle, CURLOPT_POST, 1);
-      curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $postData);
-
-      $response = curl_exec($curlHandle);
-      curl_close($curlHandle);
-      return $response;
+      return \Requests::post($translateApi, [], $postData)->body;
     }
     else
     {
