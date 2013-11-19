@@ -53,12 +53,14 @@ class SidekixBundl extends Bundle
   {
     $config       = Container::config()->get("sidekix", new Config());
     $translateApi = $config->getStr("translate_endpoint", null);
+    $projectId    = $config->getStr("project_id", 0);
     if($translateApi !== null)
     {
       $postData = [
-        'text'   => $text,
-        'source' => $sourceLanguage,
-        'target' => $targetLanguage
+        'text'      => $text,
+        'source'    => $sourceLanguage,
+        'target'    => $targetLanguage,
+        'projectId' => $projectId,
       ];
 
       return \Requests::post($translateApi, [], $postData)->body;
