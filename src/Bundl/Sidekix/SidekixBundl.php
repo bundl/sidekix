@@ -48,4 +48,34 @@ class SidekixBundl extends Bundle
       }
     }
   }
+
+  public function translate($text, $sourceLanguage, $targetLanguage)
+  {
+    $config       = Container::config()->get("sidekix", new Config());
+    $translateApi = $config->getStr("translate_endpoint", null);
+    if($translateApi !== null)
+    {
+      $postData = [
+        'text'   => $text,
+        'source' => $sourceLanguage,
+        'target' => $targetLanguage
+      ];
+
+      $curlHandle = curl_init($translateApi);
+      curl_setopt($curlHandle, CURLOPT_HEADER, false);
+      curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($curlHandle, CURLOPT_POST, 1);
+      curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $postData);
+
+      $response = curl_exec($curlHandle);
+      curl_close($curlHandle);
+      return $response;
+    }
+    else
+    {
+      throw new \Exception(
+        "No Translate Endpoint specified in config file", 400
+      );
+    }
+  }
 }
