@@ -28,7 +28,14 @@ class SidekickTranslator implements ITranslator
         'projectId' => $projectId,
       ];
 
-      return \Requests::post($translateApi, [], $postData)->body;
+      $body   = \Requests::post($translateApi, [], $postData)->body;
+      $result = json_decode($body);
+      $result = idp($result, 'result', null);
+      if($result === null)
+      {
+        return $text;
+      }
+      return idp($result, "text", $text);
     }
     else
     {
