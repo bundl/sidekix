@@ -5,6 +5,7 @@
 
 namespace Bundl\Sidekix;
 
+use Cubex\Foundation\Config\Config;
 use Cubex\Foundation\Config\ConfigTrait;
 use Cubex\Foundation\Container;
 use Cubex\I18n\Translator\ITranslator;
