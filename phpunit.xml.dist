@@ -9,7 +9,7 @@
   </php>
 
   <testsuites>
-    <testsuite name="Cubex IO Test Suite">
+    <testsuite name="Sidekix Test Suite">
       <directory>./src/Bundl/Sidekix/Tests</directory>
       <directory>./src/Bundl/Sidekix/*/Tests</directory>
       <directory>./src/Bundl/Sidekix/*/*/Tests</directory>
