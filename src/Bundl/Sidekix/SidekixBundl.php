@@ -48,4 +48,30 @@ class SidekixBundl extends Bundle
       }
     }
   }
+
+  public function getDiffuseVersionInfo()
+  {
+    $info        = [];
+    $versionFile = build_path(CUBEX_PROJECT_ROOT, 'DIFFUSE.VERSION');
+    if(file_exists($versionFile))
+    {
+      $data = file($versionFile);
+      foreach($data as $line)
+      {
+        $line = trim($line);
+        if(starts_with($line, '== Change Log ==', true))
+        {
+          break;
+        }
+        else if(!empty($line))
+        {
+          list($key, $value) = exploded(':', $line, ['unknown', 'unknown'], 2);
+          $info[$key] = $value;
+        }
+      }
+    }
+
+    return $info;
+  }
 }
+
