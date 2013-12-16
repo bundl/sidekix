@@ -49,7 +49,7 @@ class SidekixBundl extends Bundle
     }
   }
 
-  public function getDiffuseVersionInfo()
+  public static function getDiffuseVersionInfo()
   {
     $info        = [];
     $versionFile = build_path(CUBEX_PROJECT_ROOT, 'DIFFUSE.VERSION');
