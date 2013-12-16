@@ -12,6 +12,7 @@ use Cubex\Events\EventManager;
 use Cubex\Facade\Redirect;
 use Cubex\Foundation\Config\Config;
 use Cubex\Foundation\Container;
+use Cubex\Helpers\Strings;
 
 class SidekixBundl extends Bundle
 {
@@ -66,7 +67,7 @@ class SidekixBundl extends Bundle
         else if(!empty($line))
         {
           list($key, $value) = exploded(':', $line, ['unknown', 'unknown'], 2);
-          $info[$key] = $value;
+          $info[Strings::variableToUnderScore($key)] = $value;
         }
       }
     }
