@@ -14,27 +14,35 @@ class SidekickTranslator implements ITranslator
 {
   use ConfigTrait;
 
+  protected $_api;
+  protected $_projectId;
+
+  public function __construct()
+  {
+    $config           = Container::config()->get("sidekix", new Config());
+    $this->_api       = $config->getStr("translate_endpoint", null);
+    $this->_projectId = $config->getStr("project_id", 0);
+  }
+
   public function translate($text, $sourceLanguage, $targetLanguage)
   {
-    $config       = Container::config()->get("sidekix", new Config());
-    $translateApi = $config->getStr("translate_endpoint", null);
-    $projectId    = $config->getStr("project_id", 0);
-    if($translateApi !== null)
+    if($this->_api !== null)
     {
       $postData = [
         'text'      => $text,
         'source'    => $sourceLanguage,
         'target'    => $targetLanguage,
-        'projectId' => $projectId,
+        'projectId' => $this->_projectId,
       ];
 
-      $body   = \Requests::post($translateApi, [], $postData)->body;
+      $body   = \Requests::post($this->_api, [], $postData)->body;
       $result = json_decode($body);
       $result = idp($result, 'result', null);
       if($result === null)
       {
         return $text;
       }
+
       return idp($result, "text", $text);
     }
     else
