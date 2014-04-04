@@ -16,6 +16,8 @@ use Cubex\Helpers\Strings;
 
 class SidekixBundl extends Bundle
 {
+  protected static $_versionInfo;
+
   public function init($initialiser = null)
   {
     EventManager::listen(
@@ -52,27 +54,33 @@ class SidekixBundl extends Bundle
 
   public static function getDiffuseVersionInfo()
   {
-    $info        = [];
-    $versionFile = build_path(CUBEX_PROJECT_ROOT, 'DIFFUSE.VERSION');
-    if(file_exists($versionFile))
+    if(!self::$_versionInfo)
     {
-      $data = file($versionFile);
-      foreach($data as $line)
+      $info        = [];
+      $versionFile = build_path(CUBEX_PROJECT_ROOT, 'DIFFUSE.VERSION');
+      if(file_exists($versionFile))
       {
-        $line = trim($line);
-        if(starts_with($line, '== Change Log ==', true))
+        $data = file($versionFile);
+        foreach($data as $line)
         {
-          break;
-        }
-        else if(!empty($line))
-        {
-          list($key, $value) = exploded(':', $line, ['unknown', 'unknown'], 2);
-          $info[Strings::variableToUnderScore($key)] = $value;
+          $line = trim($line);
+          if(starts_with($line, '== Change Log ==', true))
+          {
+            break;
+          }
+          else if(!empty($line))
+          {
+            list($key, $value) = exploded(
+              ':', $line, ['unknown', 'unknown'], 2
+            );
+            $info[Strings::variableToUnderScore($key)] = $value;
+          }
         }
       }
+      self::$_versionInfo = $info;
     }
 
-    return $info;
+    return self::$_versionInfo;
   }
 }
 
